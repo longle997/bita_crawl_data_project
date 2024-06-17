@@ -1,0 +1,48 @@
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center">{{ title }}</h1>
+            <hr>
+            <table id="data" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product name</th>
+                        <th>Product sale price</th>
+                        <th>Product original price</th>
+                        <th>Sale percentage</th>
+                        <th>Number of sold product</th>
+                        <th>Number of review</th>
+                        <th>Vendor location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <th>{{item.id}}</th>
+                            <th>{{item.product_name}}</th>
+                            <th>{{item.sale_price}}</th>
+                            <th>{{item.original_price}}</th>
+                            <th>{{item.sale_percentage}}</th>
+                            <th>{{item.sold_number}}</th>
+                            <th>{{item.review_number}}</th>
+                            <th>{{item.vendor_location}}</th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#data').DataTable({});
+            });
+        </script>
+    </body>
+</html>
