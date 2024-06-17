@@ -12,7 +12,7 @@ class CrawlDataService:
         urlpage = 'https://www.lazada.vn/locklock-flagship-store/?q=All-Products&from=wangpu&langFlag=vi&pageTypeId=2'
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(options=options)
         driver.get(urlpage)
         for i in range(24):
             time.sleep(10)
