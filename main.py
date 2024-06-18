@@ -28,6 +28,8 @@ async def lifespan(app: FastAPI):
     session.commit()
     yield
 
+# crawl data when start app
+# app = FastAPI(lifespan=lifespan)
 app = FastAPI()
 
 templates = Jinja2Templates(directory="templates")
