@@ -8,7 +8,6 @@ from models import Base, Product
 from contextlib import asynccontextmanager
 from crawl_data_service import CrawlDataService
 
-Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 # Dependency
@@ -30,9 +29,6 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI()
-
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 
 templates = Jinja2Templates(directory="templates")
 
