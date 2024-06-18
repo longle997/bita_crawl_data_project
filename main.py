@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI):
     session.commit()
     yield
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

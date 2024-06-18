@@ -1,7 +1,8 @@
 from selenium import webdriver
 import time
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 
 class CrawlDataService:
 
@@ -23,6 +24,9 @@ class CrawlDataService:
             for product in products_raw_data:
                 product_split = product.text.split('\n')
 
+                if len(product_split) < 7:
+                    continue
+
                 if len(product_split) == 7:
                     product_dict = {DICT_KEYS[index]: product_split[index] for index in range(len(product_split))}
                     result.append(product_dict)
@@ -31,9 +35,13 @@ class CrawlDataService:
                     for index in range(-1 ,-4, -1):
                         product_dict[DICT_KEYS[index]] = product_split[index]
                     result.append(product_dict)
+            try:
+                next_button = driver.find_element(By.XPATH, '//li[@class="ant-pagination-next"]//button[@class="ant-pagination-item-link"]')
+                next_button.click()
+            except (NoSuchElementException, ElementClickInterceptedException):
+                break
 
-            next_button = driver.find_element(By.XPATH, '//li[@class="ant-pagination-next"]//button[@class="ant-pagination-item-link"]')
-            next_button.click()
+            driver.save_screenshot('scrrenshot.png')
             driver.refresh()
 
         driver.quit()
