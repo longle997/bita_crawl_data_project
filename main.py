@@ -23,9 +23,13 @@ async def lifespan(app: FastAPI):
     # crawl data
     crawl_data_products = CrawlDataService.crawl_data_from_target_lazada_page()
     session = SessionLocal()
-    product_object_list = [Product(**crawl_data_product) for crawl_data_product in crawl_data_products]
+    product_records = session.query(Product).all()
+    product_name_list = [product.product_name for product in product_records]
+    product_object_list = [Product(**crawl_data_product) for crawl_data_product in crawl_data_products 
+                           if crawl_data_product['product_name'] not in product_name_list]
     session.bulk_save_objects(product_object_list)
     session.commit()
+    session.close()
     yield
 
 # crawl data when start app

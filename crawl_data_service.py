@@ -15,11 +15,15 @@ class CrawlDataService:
         options.add_argument("--headless")
         driver = webdriver.Chrome(options=options)
         driver.get(urlpage)
+        products_raw_data_old = []
         for i in range(24):
             time.sleep(10)
             print(f'===================CRAWLING DATA PAGE {i+1} BEGIN================')
             products_raw_data = driver.find_elements(By.XPATH, "//*[@class='qmXQo']//*[@class='buTCk']")
             print(f'===================CRAWLING DATA PAGE {i+1} FINISH================')
+            
+            if products_raw_data_old == products_raw_data:
+                continue
 
             for product in products_raw_data:
                 product_split = product.text.split('\n')
@@ -40,8 +44,8 @@ class CrawlDataService:
                 next_button.click()
             except (NoSuchElementException, ElementClickInterceptedException):
                 break
-
-            driver.save_screenshot('scrrenshot.png')
+            
+            products_raw_data_old = products_raw_data
             driver.refresh()
 
         driver.quit()
