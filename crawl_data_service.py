@@ -8,12 +8,13 @@ class CrawlDataService:
 
     @staticmethod
     def crawl_data_from_target_lazada_page():
-        DICT_KEYS = ['product_name', 'sale_price', 'original_price', 'sale_percentage', 'sold_number', 'review_number', 'vendor_location']
+        DICT_KEYS = ['product_name', 'sale_price', 'original_price', 'sale_percentage', 
+                     'sold_number', 'review_number', 'vendor_location']
         result = []
         urlpage = 'https://www.lazada.vn/locklock-flagship-store/?q=All-Products&from=wangpu&langFlag=vi&pageTypeId=2'
         options = Options()
         options.add_argument("--headless")
-        driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome()
         driver.get(urlpage)
         products_raw_data_old = []
         for i in range(24):
@@ -40,7 +41,8 @@ class CrawlDataService:
                         product_dict[DICT_KEYS[index]] = product_split[index]
                     result.append(product_dict)
             try:
-                next_button = driver.find_element(By.XPATH, '//li[@class="ant-pagination-next"]//button[@class="ant-pagination-item-link"]')
+                next_button = driver.find_element(
+                    By.XPATH, '//li[@class="ant-pagination-next"]//button[@class="ant-pagination-item-link"]')
                 next_button.click()
             except (NoSuchElementException, ElementClickInterceptedException):
                 break
